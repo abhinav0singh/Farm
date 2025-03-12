@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Trade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FEFAE0;
+            scroll-behavior: smooth;
+        }
+        
+        .toggle-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #FFCF50;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 1000;
+            border-radius: 8px;
+        }
+        .navbar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            background-color: #626F47;
+            padding-top: 20px;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1100;
+        }
+        .navbar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            text-align: center;
+        }
+       
+        .navbar a:hover {
+            background-color: #A4B465;
+        }
+        .section {
+            margin-left: 160px;
+            padding: 20px;
+            text-align: center;
+        }
+        #home.section.home{
+            padding:1px;
+        }
+        .home {
+            height: 100vh;
+           
+            position: relative;
+        }
+        .imageHome{
+            height: 100vh;
+            position: relative;
+            
+        }
+
+        
+        
+        .home .btn {
+            position: absolute;
+          
+            top: 50%;
+            left: 190px;
+            transform: translateY(-50%);
+            background-color: #FFCF50;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        }
+        .home .btn:hover {
+            transform: scale(1.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .home .btn:active {
+            background-color: black;
+            color: white;
+        }
+        .market {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .card {
+            width: 200px;
+            height: 150px;
+            background-color: #FBA518;
+            border-radius: 10px;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            color: white;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(235, 91, 0, 0.5), transparent);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+            z-index: 0;
+        }
+        .card:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        .card:active {
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.2);
+            background-color: #626F47;
+        }
+        .card span {
+            position: relative;
+            z-index: 1;
+        }
+        .description, .connect {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .login-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: #FFCF50;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            
+        }
+
+        .login-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-btn:active {
+            background-color: black;
+            color: white;
+        }
+        footer {
+            background-color: #626F47;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+        footer a {
+            color: #FFCF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .market {
+                flex-direction: column;
+            }
+            .card {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                transform: translateX(-100%);
+                width: 200px;
+                height: 100vh;
+                position: fixed;
+                transition: transform 0.3s ease-in-out;
+            }
+            .navbar.active {
+                transform: translateX(0);
+            }
+            .toggle-btn {
+                display: block;
+            }
+            .navbar.active + .toggle-btn {
+                display: none;
+            }
+            .section {
+                margin-left: 0;
+            }
+        }
+    </style>
+    <script>
+        function smoothScroll(target) {
+            document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+     <script>
+        function smoothScroll(target) {
+            let element = document.querySelector(target);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        function toggleNav() {
+            let navbar = document.querySelector(".navbar");
+            navbar.classList.toggle("active");
+        }
+        document.addEventListener("click", function(event) {
+            let navbar = document.querySelector(".navbar");
+            let toggleBtn = document.querySelector(".toggle-btn");
+            if (!navbar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                navbar.classList.remove("active");
+            }
+        });
+    </script>
+</head>
+<body>
+    <button class="toggle-btn" onclick="toggleNav()">☰</button>
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#market">Market</a>
+        <a href="#description">Description</a>
+        <a href="#connect">Connect</a>
+    </div>
+
+   
+    <div id="home" class="section home">
+        <img src="pexels-chanita-sykes-417447-1094544.jpg" alt="Description of Image" class="imageHome"/>
+
+        <button class="btn" onclick="smoothScroll('#market')">Get Started</button>
+       
+
+    </div>
+    
+    <div id="market" class="section market">
+        <a href="buy.html" class="card"><span>BUY</span></a>
+        <a href="sell.html" class="card"><span>SELL</span></a>
+        <a href="hire.html" class="card"><span>HIRE</span></a>
+    </div>
+    
+    <div id="description" class="section description">
+        <p>Imagine a world where farmers can secure buyers for their crops before they’re even harvested, and wholesalers can lock in their supply without leaving their doorstep. [Company Name] makes this vision a reality.</p>
+    </div>
+    
+    <div id="connect" class="section connect">
+        <p><a href="https://forms.google.com" target="_blank">Click here to give feedback</a></p>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 [Company Name]. All rights reserved.</p>
+    </footer>
+
+    <a href="Login.html" class="login-btn">Login</a>
+
+</body>
+</html>
