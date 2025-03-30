@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Searchable Cards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+    }
+    #search-bar {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    main {
+      padding: 20px;
+    }
+    #cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .card {
+      width: 45%;
+      margin: 10px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card h3 {
+      padding: 10px;
+      text-align: center;
+      margin: 0;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+    .button {
+      flex: 1;
+      text-align: center;
+      margin: 0 5px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    @media (max-width: 768px) {
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <input type="text" id="search-bar" placeholder="Search...">
+  </header>
+  <main>
+    <div id="cards-container"></div>
+  </main>
+  <script>
+    const cardsData = [
+      { id: 1, imageUrl: 'https://picsum.photos/200/300?random=1', title: 'Apple Pie', userId: 'user1', keywords: ['apple', 'pie', 'dessert'] },
+      { id: 2, imageUrl: 'https://picsum.photos/200/300?random=2', title: 'Banana Smoothie', userId: 'user2', keywords: ['banana', 'smoothie', 'drink'] },
+      { id: 3, imageUrl: 'https://picsum.photos/200/300?random=3', title: 'Cherry Tart', userId: 'user3', keywords: ['cherry', 'tart', 'dessert'] },
+      { id: 4, imageUrl: 'https://picsum.photos/200/300?random=4', title: 'Date Muffin', userId: 'user4', keywords: ['date', 'muffin', 'breakfast'] },
+      { id: 5, imageUrl: 'https://picsum.photos/200/300?random=5', title: 'Elderberry Jam', userId: 'user5', keywords: ['elderberry', 'jam', 'spread'] },
+      { id: 6, imageUrl: 'https://picsum.photos/200/300?random=6', title: 'Fig Newton', userId: 'user6', keywords: ['fig', 'newton', 'cookie'] }
+    ];
+
+    const cardsContainer = document.getElementById('cards-container');
+    const searchBar = document.getElementById('search-bar');
+
+    function displayCards(data) {
+      const html = data.map(card => `
+        <div class="card">
+          <img src="${card.imageUrl}" alt="${card.title}">
+          <h3>${card.title}</h3>
+          <div class="buttons">
+            <a href="order.html?userId=${card.userId}" class="button">Order</a>
+            <a href="chat.html?userId=${card.userId}" class="button">Chat</a>
+          </div>
+        </div>
+      `).join('');
+      cardsContainer.innerHTML = html;
+    }
+
+    displayCards(cardsData);
+
+    searchBar.addEventListener('input', (e) => {
+      const searchValue = e.target.value.toLowerCase();
+      const filteredData = cardsData.filter(card =>
+        card.title.toLowerCase().includes(searchValue) ||
+        card.keywords.some(keyword => keyword.toLowerCase().includes(searchValue))
+      );
+      displayCards(filteredData);
+    });
+  </script>
+</body>
+</html>

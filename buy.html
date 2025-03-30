@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Searchable Cards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+    }
+    #search-bar {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    main {
+      padding: 20px;
+    }
+    #cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .card {
+      width: calc(25% - 20px); /* 4 cards per row on desktop */
+      margin: 10px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card h3 {
+      padding: 10px;
+      text-align: center;
+      margin: 0;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+    .button {
+      flex: 1;
+      text-align: center;
+      margin: 0 5px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    @media (max-width: 768px) {
+      .card {
+        width: calc(50% - 20px); /* 2 cards per row on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <input type="text" id="search-bar" placeholder="Search...">
+  </header>
+  <main>
+    <div id="cards-container"></div>
+  </main>
+  <script>
+    const cardsContainer = document.getElementById('cards-container');
+    const searchBar = document.getElementById('search-bar');
+    let allCards = [];
+
+    // Function to display cards
+    function displayCards(data) {
+      const html = data.map(card => `
+        <div class="card">
+          <img src="${card.imageUrl}" alt="${card.title}">
+          <h3>${card.title}</h3>
+          <div class="buttons">
+            <a href="order.html?userId=${card.userId}" class="button">Order</a>
+            <a href="chat.html?userId=${card.userId}" class="button">Chat</a>
+          </div>
+        </div>
+      `).join('');
+      cardsContainer.innerHTML = html;
+    }
+
+    // Fetch data from API
+    fetch('https://api.example.com/cards')
+      .then(response => response.json())
+      .then(data => {
+        allCards = data;
+        displayCards(allCards);
+      })
+      .catch(error => console.error('Error fetching cards:', error));
+
+    // Search functionality
+    searchBar.addEventListener('input', (e) => {
+      const searchValue = e.target.value.toLowerCase();
+      const filteredData = allCards.filter(card =>
+        card.title.toLowerCase().includes(searchValue) ||
+        card.keywords.some(keyword => keyword.toLowerCase().includes(searchValue))
+      );
+      displayCards(filteredData);
+    });
+  </script>
+</body>
+</html>
